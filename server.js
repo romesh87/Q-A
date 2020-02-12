@@ -3,6 +3,7 @@ const morgan = require('morgan');
 
 const connectDB = require('./config/db');
 const users = require('./routes/api/users');
+const questions = require('./routes/api/questions');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,6 +16,7 @@ app.use(express.json({ extended: false }));
 app.use(morgan('dev'));
 
 app.use('/api/users', users);
+app.use('/api/questions', questions);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
