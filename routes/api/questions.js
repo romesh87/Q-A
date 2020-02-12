@@ -179,7 +179,7 @@ router.delete('/:id/answer', auth, async (req, res) => {
     question.answers.splice(removeIndex, 1);
     await question.save();
 
-    res.status(201).json(question.answers);
+    res.status(200).json(question.answers);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(400).json({ msg: 'Question not found' });
@@ -231,7 +231,7 @@ router.put('/:quest_id/answer/:ans_id/upvote', auth, async (req, res) => {
 
     await question.save();
 
-    res.status(201).json(question.answers[answerIndex].upvotes);
+    res.status(200).json(question.answers[answerIndex].upvotes);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(400).json({ msg: 'Bad URL params' });
@@ -288,7 +288,7 @@ router.put('/:quest_id/answer/:ans_id/downvote', auth, async (req, res) => {
 
     await question.save();
 
-    res.status(201).json(question.answers[answerIndex].upvotes);
+    res.status(200).json(question.answers[answerIndex].upvotes);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(400).json({ msg: 'Bad URL params' });
@@ -336,7 +336,7 @@ router.put('/:quest_id/answer/:ans_id/favourite', auth, async (req, res) => {
     await question.save();
 
     res
-      .status(201)
+      .status(200)
       .json({ isFavourite: question.answers[answerIndex].isFavourite });
   } catch (err) {
     if (err.kind === 'ObjectId') {
@@ -385,7 +385,7 @@ router.put('/:quest_id/answer/:ans_id/unfavourite', auth, async (req, res) => {
     await question.save();
 
     res
-      .status(201)
+      .status(200)
       .json({ isFavourite: question.answers[answerIndex].isFavourite });
   } catch (err) {
     if (err.kind === 'ObjectId') {
