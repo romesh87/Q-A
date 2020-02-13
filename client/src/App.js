@@ -1,9 +1,16 @@
 import React from 'react';
 
-import './App.css';
+import classes from './App.module.css';
+import NavBar from './components/NavBar/NavBar';
+import Questions from './components/Questions/Questions';
 
 function App() {
-  return <div className='App'>App</div>;
+  return (
+    <div className={classes.App}>
+      <NavBar />
+      <Questions />
+    </div>
+  );
 }
 
 export default App;
