@@ -10,7 +10,7 @@ const NavBar = props => {
       <form className={styles.searchBar}>
         <input type='search' placeholder=' Search..' />
         <button>
-          <i class='material-icons'>search</i>
+          <i className='material-icons'>search</i>
         </button>
       </form>
       <div className={styles.navLinks}>
