@@ -7,7 +7,12 @@
   height: 150px;
   position: fixed;
   top: 0;
-  background-color: var(--clr-belizehole);
+  /* background-color: var(--clr-belizehole); */
+  background-image: linear-gradient(
+    to bottom right,
+    var(--clr-belizehole),
+    var(--clr-greensea)
+  );
 }
 
 .navBar h1 {
@@ -23,7 +28,6 @@
 .navLinks a {
   margin: 20px;
   color: white;
-  text-transform: uppercase;
   transition: color 0.2s;
 }
 

@@ -69,11 +69,11 @@ router.post(
   }
 );
 
-// @route   POST api/users/signin
-// @desc    Sign in user
+// @route   POST api/users/login
+// @desc    Log In user
 // @access  Public
 router.post(
-  '/signin',
+  '/login',
   [
     check('email', 'please include valid email').isEmail(),
     check(
