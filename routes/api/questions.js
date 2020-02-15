@@ -57,12 +57,12 @@ router.get('/:id', async (req, res) => {
       '-password'
     );
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
     res.json(question);
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     res.status(500).send('Server error');
@@ -76,20 +76,20 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     if (question.user.toString() !== req.userId) {
-      return res
-        .status(403)
-        .json({ msg: 'Questions can only be removed by the author' });
+      return res.status(403).json({
+        errors: [{ msg: 'Questions can only be removed by the author' }]
+      });
     }
 
     await question.remove();
     res.json('Question removed');
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     res.status(500).send('Server error');
@@ -111,14 +111,16 @@ router.post(
 
       const question = await Question.findById(req.params.id);
       if (!question) {
-        return res.status(404).json({ msg: 'Question not found' });
+        return res
+          .status(404)
+          .json({ errors: [{ msg: 'Question not found' }] });
       }
 
       // Check if user tries to answer his own question
       if (question.user.toString() === req.userId) {
-        return res
-          .status(403)
-          .json({ msg: 'Users cannot answer their own questions' });
+        return res.status(403).json({
+          errors: [{ msg: 'Users cannot answer their own questions' }]
+        });
       }
 
       // Check if question has already been answered by this user
@@ -126,9 +128,9 @@ router.post(
         question.answers.filter(ans => ans.user.toString() === req.userId)
           .length > 0
       ) {
-        return res
-          .status(403)
-          .json({ msg: 'Question has already been answered by this user' });
+        return res.status(403).json({
+          errors: [{ msg: 'Question has already been answered by this user' }]
+        });
       }
 
       question.answers.unshift({ user: req.userId, text: req.body.text });
@@ -137,7 +139,9 @@ router.post(
       res.status(201).json(question.answers);
     } catch (err) {
       if (err.kind === 'ObjectId') {
-        return res.status(400).json({ msg: 'Question not found' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Question not found' }] });
       }
       console.log(err.message);
       res.status(500).send('Server error');
@@ -152,7 +156,7 @@ router.delete('/:id/answer', auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     // Check if question has already been answered by this user
@@ -160,9 +164,9 @@ router.delete('/:id/answer', auth, async (req, res) => {
       question.answers.filter(ans => ans.user.toString() === req.userId)
         .length === 0
     ) {
-      return res
-        .status(403)
-        .json({ msg: 'Question has not yet been answered by this user' });
+      return res.status(403).json({
+        errors: [{ msg: 'Question has not yet been answered by this user' }]
+      });
     }
 
     // Get remove index
@@ -171,9 +175,9 @@ router.delete('/:id/answer', auth, async (req, res) => {
       .indexOf(req.userId);
 
     if (question.answers[removeIndex].user.toString() !== req.userId) {
-      return res
-        .status(403)
-        .json({ msg: 'Answers can only be removed by the author' });
+      return res.status(403).json({
+        errors: [{ msg: 'Answers can only be removed by the author' }]
+      });
     }
 
     question.answers.splice(removeIndex, 1);
@@ -182,7 +186,7 @@ router.delete('/:id/answer', auth, async (req, res) => {
     res.status(200).json(question.answers);
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(400).json({ msg: 'Question not found' });
+      return res.status(400).json({ errors: [{ msg: 'Question not found' }] });
     }
     console.log(err.message);
     res.status(500).send('Server error');
@@ -196,7 +200,7 @@ router.put('/:quest_id/answer/:ans_id/upvote', auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.quest_id);
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     // Get answer index
@@ -205,7 +209,7 @@ router.put('/:quest_id/answer/:ans_id/upvote', auth, async (req, res) => {
       .indexOf(req.params.ans_id);
 
     if (answerIndex === -1) {
-      return res.status(404).json({ msg: 'Answer not found' });
+      return res.status(404).json({ errors: [{ msg: 'Answer not found' }] });
     }
 
     // Check if user tries to upvote his own answer
@@ -213,7 +217,7 @@ router.put('/:quest_id/answer/:ans_id/upvote', auth, async (req, res) => {
     if (question.answers[answerIndex].user.toString() === req.userId) {
       return res
         .status(403)
-        .json({ msg: 'Users cannot upvote their own answers' });
+        .json({ errors: [{ msg: 'Users cannot upvote their own answers' }] });
     }
 
     // Check if user already upvoted this answer
@@ -222,9 +226,9 @@ router.put('/:quest_id/answer/:ans_id/upvote', auth, async (req, res) => {
         upvote => upvote.user.toString() === req.userId
       ).length > 0
     ) {
-      return res
-        .status(403)
-        .json({ msg: 'Answer has already been upvoted by this user' });
+      return res.status(403).json({
+        errors: [{ msg: 'Answer has already been upvoted by this user' }]
+      });
     }
 
     question.answers[answerIndex].upvotes.unshift({ user: req.userId });
@@ -234,7 +238,7 @@ router.put('/:quest_id/answer/:ans_id/upvote', auth, async (req, res) => {
     res.status(200).json(question.answers[answerIndex].upvotes);
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(400).json({ msg: 'Bad URL params' });
+      return res.status(400).json({ errors: [{ msg: 'Bad URL params' }] });
     }
     console.log(err.message);
     res.status(500).send('Server error');
@@ -248,7 +252,7 @@ router.put('/:quest_id/answer/:ans_id/downvote', auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.quest_id);
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     // Get answer index
@@ -257,7 +261,7 @@ router.put('/:quest_id/answer/:ans_id/downvote', auth, async (req, res) => {
       .indexOf(req.params.ans_id);
 
     if (answerIndex === -1) {
-      return res.status(404).json({ msg: 'Answer not found' });
+      return res.status(404).json({ errors: [{ msg: 'Answer not found' }] });
     }
 
     // Check if user tries to downvote his own answer
@@ -265,7 +269,7 @@ router.put('/:quest_id/answer/:ans_id/downvote', auth, async (req, res) => {
     if (question.answers[answerIndex].user.toString() === req.userId) {
       return res
         .status(403)
-        .json({ msg: 'Users cannot downvote their own answers' });
+        .json({ errors: [{ msg: 'Users cannot downvote their own answers' }] });
     }
 
     // Check if user already downvoted this answer
@@ -274,9 +278,9 @@ router.put('/:quest_id/answer/:ans_id/downvote', auth, async (req, res) => {
         upvote => upvote.user.toString() === req.userId
       ).length === 0
     ) {
-      return res
-        .status(403)
-        .json({ msg: 'Answer has already been downvoted by this user' });
+      return res.status(403).json({
+        errors: [{ msg: 'Answer has already been downvoted by this user' }]
+      });
     }
 
     // Get remove index
@@ -291,7 +295,7 @@ router.put('/:quest_id/answer/:ans_id/downvote', auth, async (req, res) => {
     res.status(200).json(question.answers[answerIndex].upvotes);
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(400).json({ msg: 'Bad URL params' });
+      return res.status(400).json({ errors: [{ msg: 'Bad URL params' }] });
     }
     console.log(err.message);
     res.status(500).send('Server error');
@@ -305,14 +309,14 @@ router.put('/:quest_id/answer/:ans_id/favourite', auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.quest_id);
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     // Check user
     if (question.user.toString() !== req.userId) {
-      return res
-        .status(403)
-        .json({ msg: 'Only question author can choose favourite answer' });
+      return res.status(403).json({
+        errors: [{ msg: 'Only question author can choose favourite answer' }]
+      });
     }
 
     // Get answer index
@@ -321,13 +325,13 @@ router.put('/:quest_id/answer/:ans_id/favourite', auth, async (req, res) => {
       .indexOf(req.params.ans_id);
 
     if (answerIndex === -1) {
-      return res.status(404).json({ msg: 'Answer not found' });
+      return res.status(404).json({ errors: [{ msg: 'Answer not found' }] });
     }
 
     // Check if any of the answers has already been marked as favourite
     if (question.answers.filter(ans => ans.isFavourite).length > 0) {
       return res.status(403).json({
-        msg: 'Favourite answer has already been chosen'
+        errors: [{ msg: 'Favourite answer has already been chosen' }]
       });
     }
 
@@ -340,7 +344,7 @@ router.put('/:quest_id/answer/:ans_id/favourite', auth, async (req, res) => {
       .json({ isFavourite: question.answers[answerIndex].isFavourite });
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(400).json({ msg: 'Bad URL params' });
+      return res.status(400).json({ errors: [{ msg: 'Bad URL params' }] });
     }
     console.log(err.message);
     res.status(500).send('Server error');
@@ -354,14 +358,14 @@ router.put('/:quest_id/answer/:ans_id/unfavourite', auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.quest_id);
     if (!question) {
-      return res.status(404).json({ msg: 'Question not found' });
+      return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
     // Check user
     if (question.user.toString() !== req.userId) {
-      return res
-        .status(403)
-        .json({ msg: 'Only question author can unvavourite answer' });
+      return res.status(403).json({
+        errors: [{ msg: 'Only question author can unvavourite answer' }]
+      });
     }
 
     // Get answer index
@@ -370,14 +374,14 @@ router.put('/:quest_id/answer/:ans_id/unfavourite', auth, async (req, res) => {
       .indexOf(req.params.ans_id);
 
     if (answerIndex === -1) {
-      return res.status(404).json({ msg: 'Answer not found' });
+      return res.status(404).json({ errors: [{ msg: 'Answer not found' }] });
     }
 
     // Check if no answers has been marked as favourite
     if (question.answers.filter(ans => ans.isFavourite).length === 0) {
-      return res.status(403).json({
-        msg: 'Answer has already been unfavourited'
-      });
+      return res
+        .status(403)
+        .json({ errors: [{ msg: 'Answer has already been unfavourited' }] });
     }
 
     question.answers[answerIndex].isFavourite = false;
@@ -389,7 +393,7 @@ router.put('/:quest_id/answer/:ans_id/unfavourite', auth, async (req, res) => {
       .json({ isFavourite: question.answers[answerIndex].isFavourite });
   } catch (err) {
     if (err.kind === 'ObjectId') {
-      return res.status(400).json({ msg: 'Bad URL params' });
+      return res.status(400).json({ errors: [{ msg: 'Bad URL params' }] });
     }
     console.log(err.message);
     res.status(500).send('Server error');

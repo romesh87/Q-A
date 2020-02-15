@@ -1,28 +1,36 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './Alert.module.css';
 
 const Alert = props => {
-  let stylesString = styles.alert;
-  if (props.type === 'success') {
-    stylesString = stylesString + ' ' + styles.success;
-  } else if (props.type === 'danger') {
-    stylesString = stylesString + ' ' + styles.danger;
-  }
+  return props.alert !== null && props.alert.length > 0
+    ? props.alert.map(el => {
+        let stylesString = styles.alert;
+        if (el.type === 'success') {
+          stylesString = stylesString + ' ' + styles.success;
+        } else if (el.type === 'danger') {
+          stylesString = stylesString + ' ' + styles.danger;
+        }
 
-  console.log(stylesString);
-
-  return (
-    <div className={stylesString}>
-      <p>{props.text}</p>
-    </div>
-  );
+        return (
+          <div key={el.id} className={stylesString}>
+            <p>{el.text}</p>
+          </div>
+        );
+      })
+    : null;
 };
 
 Alert.propTypes = {
-  text: PropTypes.string.isRequired,
-  type: PropTypes.string
+  alert: PropTypes.array
 };
 
-export default Alert;
+const mapStateToProps = state => {
+  return {
+    alert: state.alert
+  };
+};
+
+export default connect(mapStateToProps)(Alert);

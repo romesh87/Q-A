@@ -4,8 +4,7 @@ const initialState = {
   user: null,
   token: null,
   isAuthenticated: false,
-  loading: true,
-  error: null
+  loading: true
 };
 
 const reducer = (state = initialState, action) => {
@@ -20,24 +19,26 @@ const reducer = (state = initialState, action) => {
         loading: false
       };
 
-    case actionTypes.SIGNUP_FAIL:
-    case actionTypes.LOGIN_FAIL:
+    case actionTypes.LOAD_USER:
       return {
         ...state,
-        token: null,
-        isAuthenticated: false,
-        loading: false,
-        error: action.payload
+        token: localStorage.getItem('token'),
+        isAuthenticated: true,
+        user: action.payload,
+        loading: false
       };
 
+    case actionTypes.SIGNUP_FAIL:
+    case actionTypes.LOGIN_FAIL:
+    case actionTypes.AUTH_FAIL:
     case actionTypes.LOGOUT:
       localStorage.removeItem('token');
       return {
         ...state,
+        user: null,
         token: null,
         isAuthenticated: false,
-        loading: true,
-        error: null
+        loading: false
       };
 
     default:

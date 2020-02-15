@@ -22,6 +22,8 @@
 }
 
 .navLinks {
+  display: flex;
+  align-items: center;
   margin: 20px;
 }
 
@@ -46,4 +48,13 @@ a:active {
   font-size: 100%;
   border-radius: 5px 0px 0px 5px;
   background-color: var(--clr-clouds);
+}
+
+.username {
+  color: white;
+}
+
+ion-icon {
+  font-size: 36px;
+  color: white;
 }

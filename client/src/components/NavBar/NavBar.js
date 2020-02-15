@@ -8,6 +8,7 @@ import { logOut } from '../../actions/auth';
 
 const NavBar = props => {
   const isAuthenticated = props.auth.isAuthenticated;
+  const user = props.auth.user;
 
   return (
     <nav className={styles.navBar}>
@@ -20,6 +21,10 @@ const NavBar = props => {
       </form>
       {isAuthenticated ? (
         <div className={styles.navLinks}>
+          <ion-icon name='person-circle-outline'></ion-icon>
+          {user && (
+            <span className={styles.username}> {user.name.split(' ')[0]}</span>
+          )}
           <a
             href='#!'
             onClick={() => {
@@ -33,7 +38,7 @@ const NavBar = props => {
       ) : (
         <div className={styles.navLinks}>
           <Link to='/login'>LOG IN</Link>
-          <Link to='/signup'>SIGN IN</Link>
+          <Link to='/signup'>SIGN UP</Link>
         </div>
       )}
     </nav>

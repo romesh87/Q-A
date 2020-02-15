@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import styles from './LogIn.module.css';
 import { logIn } from '../../actions/auth';
+//import { setAlert } from '../../actions/alert';
 
 const LogIn = props => {
   const [formData, setFormData] = useState({
@@ -16,7 +17,6 @@ const LogIn = props => {
 
   const onSubmitHandler = e => {
     e.preventDefault();
-
     props.logIn(email, password);
   };
 

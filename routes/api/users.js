@@ -16,10 +16,10 @@ router.post(
   '/signup',
   [
     check('name', 'name is required').notEmpty(),
-    check('email', 'please include valid email').isEmail(),
+    check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
-      'please include password with at least 6 characters'
+      'Please include password with at least 6 characters'
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -39,7 +39,9 @@ router.post(
     try {
       const user = await User.findOne({ email: email });
       if (user) {
-        return res.status(400).json({ msg: 'User already exists' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
       }
 
       const newUser = new User({
@@ -75,10 +77,10 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'please include valid email').isEmail(),
+    check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
-      'please include password with at least 6 characters'
+      'Please include password with at least 6 characters'
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -93,12 +95,16 @@ router.post(
     try {
       const user = await User.findOne({ email: email });
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
       const match = await bcrypt.compare(password, user.password);
       if (match === false) {
-        return res.status(400).json({ msg: 'Invalid credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
       const payload = {

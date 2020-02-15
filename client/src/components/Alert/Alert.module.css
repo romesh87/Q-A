@@ -2,20 +2,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 150px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 100%;
-  height: 80px;
+  height: 50px;
   background-color: var(--clr-concrete);
+  opacity: 0.9;
   color: white;
   text-align: center;
 }
 
 .alert p {
-  font-size: 150%;
+  font-size: 120%;
 }
 
 .danger {
-  background-color: var(--clr-pomegranate);
+  background-color: var(--clr-alizarin);
 }
 
 .success {
