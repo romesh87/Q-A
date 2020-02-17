@@ -52,13 +52,14 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   try {
-    const question = await Question.findById(req.params.id).populate(
-      'user',
-      '-password'
-    );
+    const question = await Question.findById(req.params.id)
+      .populate('user', '-password')
+      .populate('answers.user', '-password');
+
     if (!question) {
       return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
+
     res.json(question);
   } catch (err) {
     if (err.kind === 'ObjectId') {

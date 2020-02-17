@@ -1,4 +1,4 @@
-.questionItem {
+.question {
   display: flex;
   /* align-items: center; */
   justify-content: space-between;
@@ -34,7 +34,7 @@
 }
 
 .content h3 {
-  margin-top: 30px;
+  margin-top: 10px;
   font-size: 80%;
   font-weight: 300;
 }
@@ -43,8 +43,7 @@
   font-size: 80%;
 }
 
-.content a {
-  display: block;
+.content button {
   margin-top: 10px;
   width: 120px;
   height: 40px;
@@ -52,15 +51,8 @@
   background-color: var(--clr-peterriver);
   transition: background-color 0.2s;
   color: white;
-  text-align: center;
-  padding-top: 7px;
   font-size: 80%;
   border: none;
   outline: none;
   cursor: pointer;
-}
-
-.content a:hover,
-button:active {
-  background-color: var(--clr-belizehole);
 }

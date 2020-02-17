@@ -1,5 +1,6 @@
 // Question
 export const GET_QUESTIONS = 'GET_QUESTIONS';
+export const GET_QUESTION = 'GET_QUESTION';
 export const QUESTION_ERROR = 'QUESTION_ERROR';
 
 // Auth

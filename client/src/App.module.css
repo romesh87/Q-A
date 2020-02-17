@@ -34,6 +34,34 @@
   margin-right: auto;
 }
 
+/* Material icons */
+/* size */
+:global(.material-icons.md-18) {
+  font-size: 18px;
+}
+:global(.material-icons.md-24) {
+  font-size: 24px;
+}
+:global(.material-icons.md-36) {
+  font-size: 36px;
+}
+:global(.material-icons.md-48) {
+  font-size: 48px;
+}
+/* color  */
+:global(.material-icons.md-dark) {
+  color: rgba(0, 0, 0, 0.54);
+}
+:global(.material-icons.md-dark.md-inactive) {
+  color: rgba(0, 0, 0, 0.26);
+}
+:global(.material-icons.md-light) {
+  color: rgba(255, 255, 255, 1);
+}
+:global(.material-icons.md-light.md-inactive) {
+  color: rgba(255, 255, 255, 0.3);
+}
+
 /* Global colors */
 :root {
   /* Blue */

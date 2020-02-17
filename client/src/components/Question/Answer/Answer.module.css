@@ -1,4 +1,4 @@
-.questionItem {
+.answer {
   display: flex;
   /* align-items: center; */
   justify-content: space-between;
@@ -24,6 +24,7 @@
 }
 
 .user img {
+  margin-top: 20px;
   height: 100px;
   width: 100px;
   border-radius: 100px;
@@ -34,7 +35,7 @@
 }
 
 .content h3 {
-  margin-top: 30px;
+  margin-top: 10px;
   font-size: 80%;
   font-weight: 300;
 }
@@ -43,24 +44,27 @@
   font-size: 80%;
 }
 
-.content a {
-  display: block;
-  margin-top: 10px;
-  width: 120px;
-  height: 40px;
-  border-radius: 8px;
-  background-color: var(--clr-peterriver);
-  transition: background-color 0.2s;
-  color: white;
-  text-align: center;
-  padding-top: 7px;
-  font-size: 80%;
-  border: none;
-  outline: none;
-  cursor: pointer;
+.content p {
+  margin-top: 20px;
 }
 
-.content a:hover,
-button:active {
-  background-color: var(--clr-belizehole);
+.upvotes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--clr-silver);
+  padding: 8px;
+  border-radius: 3px;
+  margin-left: 25px;
+}
+
+.upvotes h4 {
+  font-size: 70%;
+  font-weight: 200;
+}
+
+.upvotes p {
+  font-size: 120%;
+  text-align: center;
 }

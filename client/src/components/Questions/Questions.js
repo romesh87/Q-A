@@ -9,6 +9,7 @@ import { getQuestions } from '../../actions/question';
 
 const Questions = props => {
   const questions = props.question.questions;
+  const auth = props.auth;
 
   useEffect(() => {
     props.getQuestions();
@@ -22,6 +23,7 @@ const Questions = props => {
         questions.map(question => (
           <QuestionItem
             key={question._id}
+            id={question._id}
             user={question.user}
             text={question.text}
             date={question.date}
@@ -35,12 +37,14 @@ const Questions = props => {
 
 Questions.propTypes = {
   getQuestions: PropTypes.func.isRequired,
-  question: PropTypes.object.isRequired
+  question: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    question: state.question
+    question: state.question,
+    auth: state.auth
   };
 };
 

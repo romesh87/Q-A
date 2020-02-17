@@ -16,3 +16,18 @@ export const getQuestions = () => async dispatch => {
     });
   }
 };
+
+export const getQuestion = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/questions/${id}`);
+    dispatch({
+      type: actionTypes.GET_QUESTION,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};

@@ -15,7 +15,12 @@ const reducer = (state = initialState, action) => {
         questions: action.payload,
         loading: false
       };
-
+    case actionTypes.GET_QUESTION:
+      return {
+        ...state,
+        question: action.payload,
+        loading: false
+      };
     case actionTypes.QUESTION_ERROR:
       return {
         ...state,
