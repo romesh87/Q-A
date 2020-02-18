@@ -3,6 +3,9 @@ export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const GET_QUESTION = 'GET_QUESTION';
 export const QUESTION_ERROR = 'QUESTION_ERROR';
 
+// Answer
+export const UPDATE_UPVOTES = 'UPDATE_UPVOTES';
+export const UPDATE_FAVOURITE = 'UPDATE_FAVOURITE';
 // Auth
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAIL = 'SIGNUP_FAIL';

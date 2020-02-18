@@ -340,9 +340,7 @@ router.put('/:quest_id/answer/:ans_id/favourite', auth, async (req, res) => {
 
     await question.save();
 
-    res
-      .status(200)
-      .json({ isFavourite: question.answers[answerIndex].isFavourite });
+    res.status(200).json(question.answers[answerIndex].isFavourite);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(400).json({ errors: [{ msg: 'Bad URL params' }] });
@@ -389,9 +387,7 @@ router.put('/:quest_id/answer/:ans_id/unfavourite', auth, async (req, res) => {
 
     await question.save();
 
-    res
-      .status(200)
-      .json({ isFavourite: question.answers[answerIndex].isFavourite });
+    res.status(200).json(question.answers[answerIndex].isFavourite);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(400).json({ errors: [{ msg: 'Bad URL params' }] });

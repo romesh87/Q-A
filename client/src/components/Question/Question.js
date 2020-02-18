@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, Suspense } from 'react';
 import Moment from 'react-moment';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -43,6 +43,8 @@ const Question = props => {
         question.answers.map(ans => (
           <Answer
             key={ans._id}
+            id={ans._id}
+            questId={props.match.params.id}
             username={ans.user.name}
             avatar={ans.user.avatar}
             text={ans.text}

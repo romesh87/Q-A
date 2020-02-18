@@ -66,5 +66,45 @@
 
 .upvotes p {
   font-size: 120%;
+  font-weight: 600;
   text-align: center;
+}
+
+.upvotes i {
+  cursor: pointer;
+}
+
+.btnFavourite {
+  background-color: var(--clr-nephritis);
+  color: white;
+  outline: none;
+  height: 30px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnFavourite:hover {
+  background-color: var(--clr-emerald);
+}
+
+.btnUnfavourite {
+  background-color: var(--clr-pomegranate);
+  color: white;
+  outline: none;
+  height: 30px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 10px;
+}
+
+.btnUnfavourite:hover {
+  background-color: var(--clr-alizarin);
 }

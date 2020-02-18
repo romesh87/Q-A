@@ -21,6 +21,30 @@ const reducer = (state = initialState, action) => {
         question: action.payload,
         loading: false
       };
+    case actionTypes.UPDATE_UPVOTES:
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          answers: state.question.answers.map(answer =>
+            answer._id === action.payload.id
+              ? { ...answer, upvotes: action.payload.upvotes }
+              : answer
+          )
+        }
+      };
+    case actionTypes.UPDATE_FAVOURITE:
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          answers: state.question.answers.map(answer =>
+            answer._id === action.payload.id
+              ? { ...answer, isFavourite: action.payload.isFavourite }
+              : answer
+          )
+        }
+      };
     case actionTypes.QUESTION_ERROR:
       return {
         ...state,
