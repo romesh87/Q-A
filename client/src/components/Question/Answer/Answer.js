@@ -8,24 +8,32 @@ import {
   upvoteAnswer,
   downvoteAnswer,
   favouriteAnswer,
-  unfavouriteAnswer
+  unfavouriteAnswer,
+  deleteAnswer
 } from '../../../actions/question';
 
 const Answer = props => {
+  const question = props.question.question;
+  const auth = props.auth;
+
   const upvoteClickHandler = () => {
-    props.upvoteAnswer(props.questId, props.id);
+    props.upvoteAnswer(question._id, props.id);
   };
 
   const downvoteClickHandler = () => {
-    props.downvoteAnswer(props.questId, props.id);
+    props.downvoteAnswer(question._id, props.id);
   };
 
-  const favouriteClickHandler = () => {
-    props.favouriteAnswer(props.questId, props.id);
+  const toogleFavouriteHandler = () => {
+    if (props.isFavourite) {
+      props.unfavouriteAnswer(question._id, props.id);
+    } else {
+      props.favouriteAnswer(question._id, props.id);
+    }
   };
 
-  const unfavouriteClickHandler = () => {
-    props.unfavouriteAnswer(props.questId, props.id);
+  const deleteClickHandler = () => {
+    props.deleteAnswer(question._id);
   };
 
   return (
@@ -43,25 +51,34 @@ const Answer = props => {
       </div>
       <div className={styles.content}>
         <p>{props.text}</p>
-        <h3>
-          Answered on: <Moment format='YYYY/MM/DD'>{props.date}</Moment>
-        </h3>
-        <button
-          className={styles.btnFavourite}
-          disabled={props.isFavourite}
-          onClick={favouriteClickHandler}
-        >
-          <span className='material-icons'>check</span>
-          <span>Favour</span>
-        </button>
-        <button
-          className={styles.btnUnfavourite}
-          disabled={!props.isFavourite}
-          onClick={unfavouriteClickHandler}
-        >
-          <span className='material-icons'>close</span>
-          <span>Unfavour</span>
-        </button>
+        <div>
+          <h3>
+            Answered on: <Moment format='YYYY/MM/DD'>{props.date}</Moment>
+          </h3>
+          <div className={styles.buttons}>
+            {auth.user._id === question.user._id && (
+              <button
+                className={
+                  props.isFavourite
+                    ? styles.btnUnfavourite
+                    : styles.btnFavourite
+                }
+                onClick={toogleFavouriteHandler}
+              >
+                <span>
+                  {props.isFavourite ? 'Unmark favourite' : 'Mark favourite'}
+                </span>
+              </button>
+            )}
+            {auth.user._id === props.userId && (
+              <button className={styles.btnDelete}>
+                <i className='material-icons' onClick={deleteClickHandler}>
+                  close
+                </i>
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className={styles.upvotes}>
@@ -85,8 +102,8 @@ const Answer = props => {
 
 Answer.propTypes = {
   id: PropTypes.string.isRequired,
-  questId: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
@@ -98,9 +115,17 @@ Answer.propTypes = {
   unfavouriteAnswer: PropTypes.func.isRequired
 };
 
-export default connect(null, {
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    question: state.question
+  };
+};
+
+export default connect(mapStateToProps, {
   upvoteAnswer,
   downvoteAnswer,
   favouriteAnswer,
-  unfavouriteAnswer
+  unfavouriteAnswer,
+  deleteAnswer
 })(Answer);

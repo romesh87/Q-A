@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import styles from './Question.module.css';
 import Spinner from '../UI/Spinner/Spinner';
 import Answer from './Answer/Answer';
+import AnswerForm from './AnswerForm/AnswerForm';
 import { getQuestion } from '../../actions/question';
 
 const Question = props => {
@@ -33,19 +34,22 @@ const Question = props => {
         </div>
         <div className={styles.content}>
           <h1>{question.text}</h1>
-          <h3>
-            Asked on: <Moment format='YYYY/MM/DD'>{question.date}</Moment>
-          </h3>
-          <h4>Answers: {question.answers.length}</h4>
+          <div>
+            <h3>
+              Asked on: <Moment format='YYYY/MM/DD'>{question.date}</Moment>
+            </h3>
+            <h4>Answers: {question.answers.length}</h4>
+          </div>
         </div>
       </div>
+      <AnswerForm />
       {question.answers.length > 0 ? (
         question.answers.map(ans => (
           <Answer
             key={ans._id}
             id={ans._id}
-            questId={props.match.params.id}
             username={ans.user.name}
+            userId={ans.user._id}
             avatar={ans.user.avatar}
             text={ans.text}
             date={ans.date}

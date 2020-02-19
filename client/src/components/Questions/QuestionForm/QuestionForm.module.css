@@ -1,0 +1,47 @@
+.questionForm {
+  padding: 10px;
+  border: 1px solid var(--clr-silver);
+  border-radius: 8px;
+  background-color: var(--clr-clouds);
+  box-shadow: 1px 1px 5px var(--clr-silver);
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.questionForm textarea {
+  width: 100%;
+  height: 80px;
+  padding: 5px;
+  font-size: 100%;
+}
+
+.questionForm button {
+  display: block;
+  margin-top: 10px;
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: var(--clr-peterriver);
+  transition: background-color 0.2s;
+  color: white;
+  text-align: center;
+  padding-top: px;
+  font-size: 80%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.questionForm button:hover {
+  background-color: var(--clr-belizehole);
+}
+
+.questionForm button:disabled {
+  background-color: var(--clr-silver);
+  cursor: not-allowed;
+}
+.questionForm button:disabled:hover {
+  background-color: var(--clr-silver);
+  cursor: not-allowed;
+}

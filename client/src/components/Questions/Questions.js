@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Questions.module.css';
 import QuestionItem from './QuestionItem/QuestionItem';
+import QuestionForm from './QuestionForm/QuestionForm';
 import Spinner from '../UI/Spinner/Spinner';
 import { getQuestions } from '../../actions/question';
 
@@ -17,6 +18,7 @@ const Questions = props => {
 
   return (
     <div className={styles.questions}>
+      {auth.isAuthenticated && <QuestionForm />}
       {questions.loading ? (
         <Spinner />
       ) : (
@@ -25,6 +27,7 @@ const Questions = props => {
             key={question._id}
             id={question._id}
             user={question.user}
+            userId={question.user._id}
             text={question.text}
             date={question.date}
             answers={question.answers}

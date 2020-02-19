@@ -15,12 +15,26 @@ const reducer = (state = initialState, action) => {
         questions: action.payload,
         loading: false
       };
+
     case actionTypes.GET_QUESTION:
       return {
         ...state,
         question: action.payload,
         loading: false
       };
+
+    case actionTypes.ADD_QUESTION:
+      return {
+        ...state,
+        questions: [action.payload, ...state.questions]
+      };
+
+    case actionTypes.DELETE_QUESTION:
+      return {
+        ...state,
+        questions: state.questions.filter(quest => quest._id !== action.payload)
+      };
+
     case actionTypes.UPDATE_UPVOTES:
       return {
         ...state,
@@ -33,6 +47,7 @@ const reducer = (state = initialState, action) => {
           )
         }
       };
+
     case actionTypes.UPDATE_FAVOURITE:
       return {
         ...state,
@@ -45,6 +60,17 @@ const reducer = (state = initialState, action) => {
           )
         }
       };
+
+    case actionTypes.ADD_ANSWER:
+    case actionTypes.DELETE_ANSWER:
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          answers: action.payload
+        }
+      };
+
     case actionTypes.QUESTION_ERROR:
       return {
         ...state,

@@ -30,6 +30,9 @@
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   flex: 1 1 auto;
 }
 
@@ -43,8 +46,14 @@
   font-size: 80%;
 }
 
-.content a {
-  display: block;
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttons a {
+  /* display: block; */
   margin-top: 10px;
   width: 120px;
   height: 40px;
@@ -60,7 +69,26 @@
   cursor: pointer;
 }
 
-.content a:hover,
+.buttons a:hover,
 button:active {
   background-color: var(--clr-belizehole);
+}
+
+.btnDelete {
+  background-color: var(--clr-pomegranate);
+  display: inline-block;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 50px;
+  margin-top: 10px;
+  margin-left: auto;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnDelete:hover {
+  background-color: var(--clr-alizarin);
 }

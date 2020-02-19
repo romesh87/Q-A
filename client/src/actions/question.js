@@ -33,6 +33,79 @@ export const getQuestion = id => async dispatch => {
   }
 };
 
+export const addQuestion = text => async dispatch => {
+  try {
+    console.log(text);
+    const res = await axios.post(`/api/questions`, { text });
+    dispatch({
+      type: actionTypes.ADD_QUESTION,
+      payload: res.data
+    });
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};
+
+export const deleteQuestion = id => async dispatch => {
+  try {
+    await axios.delete(`/api/questions/${id}`);
+    dispatch({
+      type: actionTypes.DELETE_QUESTION,
+      payload: id
+    });
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};
+
+export const addAnswer = (id, text) => async dispatch => {
+  try {
+    const res = await axios.post(`/api/questions/${id}/answer`, { text });
+    dispatch({
+      type: actionTypes.ADD_ANSWER,
+      payload: res.data
+    });
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};
+
+export const deleteAnswer = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/questions/${id}/answer`);
+    dispatch({
+      type: actionTypes.DELETE_ANSWER,
+      payload: res.data
+    });
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};
+
 export const upvoteAnswer = (questId, ansId) => async dispatch => {
   try {
     const res = await axios.put(

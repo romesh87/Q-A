@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const Question = require('../../models/Question');
+const User = require('../../models/User');
 const auth = require('../../middleware/auth');
 
 // @route   POST api/questions
@@ -23,6 +24,10 @@ router.post(
         text: req.body.text
       });
       await newQuestion.save();
+
+      // Attach user info
+      const user = await User.findById(req.userId);
+      newQuestion.user = user;
 
       res.status(201).json(newQuestion);
     } catch (err) {
@@ -71,7 +76,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // @route   DELETE api/questions/:id
-// @desc    Get question by id
+// @desc    Delete question
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
   try {
@@ -97,7 +102,7 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/questions/:id/answer
+// @route   POST api/questions/:id/answer
 // @desc    Answer question
 // @access  Private
 router.post(
@@ -136,6 +141,10 @@ router.post(
 
       question.answers.unshift({ user: req.userId, text: req.body.text });
       await question.save();
+
+      // Attach user info
+      const user = await User.findById(req.userId);
+      question.answers[0].user = user;
 
       res.status(201).json(question.answers);
     } catch (err) {
