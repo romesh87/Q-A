@@ -159,6 +159,58 @@ router.post(
   }
 );
 
+// @route   PATCH api/questions/:quest_id/answer/:ans_id
+// @desc    Update answer
+// @access  Private
+router.patch(
+  '/:quest_id/answer/:ans_id',
+  [auth, check('text', 'text is required').notEmpty()],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const question = await Question.findById(req.params.quest_id);
+      if (!question) {
+        return res
+          .status(404)
+          .json({ errors: [{ msg: 'Question not found' }] });
+      }
+
+      const answer = question.answers.find(
+        ans => ans.id.toString() === req.params.ans_id
+      );
+
+      if (!answer) {
+        return res.status(404).json({ errors: [{ msg: 'Answer not found' }] });
+      }
+
+      if (answer.user.toString() !== req.userId) {
+        return res.status(403).json({
+          errors: [{ msg: 'Answers can only be updated by the author' }]
+        });
+      }
+
+      await Question.updateOne(
+        { _id: req.params.quest_id, 'answers._id': req.params.ans_id },
+        { $set: { 'answers.$.text': req.body.text } }
+      );
+
+      res.status(200).json({ msg: 'Answer updated' });
+    } catch (err) {
+      if (err.kind === 'ObjectId') {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Question not found' }] });
+      }
+      console.log(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
 // @route   DELETE api/questions/:quest_id/answer/:ans_id
 // @desc    Delete answer
 // @access  Private
