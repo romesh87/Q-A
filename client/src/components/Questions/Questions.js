@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,7 @@ const Questions = props => {
 
   useEffect(() => {
     props.getQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

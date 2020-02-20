@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, Suspense } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import Moment from 'react-moment';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -17,6 +17,7 @@ const Question = props => {
 
   useEffect(() => {
     props.getQuestion(props.match.params.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!isAuth) return <Redirect to='/login' />;

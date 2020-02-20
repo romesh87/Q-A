@@ -7,8 +7,6 @@ import styles from './SignUp.module.css';
 import { signUp } from '../../actions/auth';
 
 const SignUp = props => {
-  const loading = props.auth.loading;
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
