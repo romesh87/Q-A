@@ -62,12 +62,21 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_ANSWER:
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          answers: [action.payload, ...state.question.answers]
+        }
+      };
     case actionTypes.DELETE_ANSWER:
       return {
         ...state,
         question: {
           ...state.question,
-          answers: action.payload
+          answers: state.question.answers.filter(
+            ans => ans._id !== action.payload
+          )
         }
       };
 

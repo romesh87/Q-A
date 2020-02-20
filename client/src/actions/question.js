@@ -73,6 +73,7 @@ export const deleteQuestion = id => async dispatch => {
 export const addAnswer = (id, text) => async dispatch => {
   try {
     const res = await axios.post(`/api/questions/${id}/answer`, { text });
+    console.log(res.data);
     dispatch({
       type: actionTypes.ADD_ANSWER,
       payload: res.data
@@ -88,12 +89,14 @@ export const addAnswer = (id, text) => async dispatch => {
   }
 };
 
-export const deleteAnswer = id => async dispatch => {
+export const deleteAnswer = (quest_id, ans_id) => async dispatch => {
   try {
-    const res = await axios.delete(`/api/questions/${id}/answer`);
+    const res = await axios.delete(
+      `/api/questions/${quest_id}/answer/${ans_id}`
+    );
     dispatch({
       type: actionTypes.DELETE_ANSWER,
-      payload: res.data
+      payload: ans_id
     });
   } catch (err) {
     err.response.data.errors.forEach(el =>

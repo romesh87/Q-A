@@ -146,7 +146,7 @@ router.post(
       const user = await User.findById(req.userId);
       question.answers[0].user = user;
 
-      res.status(201).json(question.answers);
+      res.status(201).json(question.answers[0]);
     } catch (err) {
       if (err.kind === 'ObjectId') {
         return res
@@ -159,36 +159,45 @@ router.post(
   }
 );
 
-// @route   DELETE api/questions/:id/answer
+// @route   DELETE api/questions/:quest_id/answer/:ans_id
 // @desc    Delete answer
 // @access  Private
-router.delete('/:id/answer', auth, async (req, res) => {
+router.delete('/:quest_id/answer/:ans_id', auth, async (req, res) => {
   try {
-    const question = await Question.findById(req.params.id);
+    const question = await Question.findById(req.params.quest_id);
     if (!question) {
       return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
-    // Check if question has already been answered by this user
-    if (
-      question.answers.filter(ans => ans.user.toString() === req.userId)
-        .length === 0
-    ) {
+    // // Check if question has already been answered by this user
+    // if (
+    //   question.answers.filter(ans => ans.user.toString() === req.userId)
+    //     .length === 0
+    // ) {
+    //   return res.status(403).json({
+    //     errors: [{ msg: 'Question has not yet been answered by this user' }]
+    //   });
+    // }
+
+    // Pull out answer
+    const answer = question.answers.find(
+      ans => ans.id.toString() === req.params.ans_id
+    );
+
+    if (!answer) {
+      return res.status(404).json({ errors: [{ msg: 'Answer not found' }] });
+    }
+
+    if (answer.user.toString() !== req.userId) {
       return res.status(403).json({
-        errors: [{ msg: 'Question has not yet been answered by this user' }]
+        errors: [{ msg: 'Answers can only be removed by the author' }]
       });
     }
 
     // Get remove index
     const removeIndex = question.answers
-      .map(ans => ans.user.toString())
-      .indexOf(req.userId);
-
-    if (question.answers[removeIndex].user.toString() !== req.userId) {
-      return res.status(403).json({
-        errors: [{ msg: 'Answers can only be removed by the author' }]
-      });
-    }
+      .map(ans => ans.id.toString())
+      .indexOf(req.params.ans_id);
 
     question.answers.splice(removeIndex, 1);
     await question.save();

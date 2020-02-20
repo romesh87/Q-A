@@ -33,7 +33,7 @@ const Answer = props => {
   };
 
   const deleteClickHandler = () => {
-    props.deleteAnswer(question._id);
+    props.deleteAnswer(question._id, props.id);
   };
 
   return (
