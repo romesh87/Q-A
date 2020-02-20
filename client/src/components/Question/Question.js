@@ -8,6 +8,7 @@ import styles from './Question.module.css';
 import Spinner from '../UI/Spinner/Spinner';
 import Answer from './Answer/Answer';
 import AnswerForm from './AnswerForm/AnswerForm';
+import EditForm from '../EditForm/EditForm';
 import { getQuestion } from '../../actions/question';
 
 const Question = props => {
@@ -28,6 +29,7 @@ const Question = props => {
     <Spinner />
   ) : (
     <Fragment>
+      <EditForm show />
       <div className={styles.question}>
         <div className={styles.user}>
           <img src={question.user.avatar} alt='avatar' />
