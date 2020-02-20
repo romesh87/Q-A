@@ -169,16 +169,6 @@ router.delete('/:quest_id/answer/:ans_id', auth, async (req, res) => {
       return res.status(404).json({ errors: [{ msg: 'Question not found' }] });
     }
 
-    // // Check if question has already been answered by this user
-    // if (
-    //   question.answers.filter(ans => ans.user.toString() === req.userId)
-    //     .length === 0
-    // ) {
-    //   return res.status(403).json({
-    //     errors: [{ msg: 'Question has not yet been answered by this user' }]
-    //   });
-    // }
-
     // Pull out answer
     const answer = question.answers.find(
       ans => ans.id.toString() === req.params.ans_id
