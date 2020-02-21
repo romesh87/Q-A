@@ -4,10 +4,13 @@ export const GET_QUESTION = 'GET_QUESTION';
 export const ADD_QUESTION = 'ADD_QUESTION';
 export const DELETE_QUESTION = 'DELETE_QUESTION';
 export const QUESTION_ERROR = 'QUESTION_ERROR';
+export const SET_EDITING = 'SET_EDITING';
+export const CLEAR_EDITING = 'CLEAR_EDITING';
 
 // Answer
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const DELETE_ANSWER = 'DELETE_ANSWER';
+export const UPDATE_ANSWER = 'UPDATE_ANSWER';
 export const UPDATE_UPVOTES = 'UPDATE_UPVOTES';
 export const UPDATE_FAVOURITE = 'UPDATE_FAVOURITE';
 

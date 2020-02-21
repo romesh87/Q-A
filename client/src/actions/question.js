@@ -89,6 +89,24 @@ export const addAnswer = (id, text) => async dispatch => {
   }
 };
 
+export const updateAnswer = (quest_id, ans_id, text) => async dispatch => {
+  try {
+    await axios.patch(`/api/questions/${quest_id}/answer/${ans_id}`, { text });
+    dispatch({
+      type: actionTypes.UPDATE_ANSWER,
+      payload: { id: ans_id, text }
+    });
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};
+
 export const deleteAnswer = (quest_id, ans_id) => async dispatch => {
   try {
     await axios.delete(`/api/questions/${quest_id}/answer/${ans_id}`);
@@ -185,4 +203,12 @@ export const unfavouriteAnswer = (questId, ansId) => async dispatch => {
       payload: err.response
     });
   }
+};
+
+export const setEditing = id => async dispatch => {
+  dispatch({ type: actionTypes.SET_EDITING, payload: id });
+};
+
+export const clearEditing = () => async dispatch => {
+  dispatch({ type: actionTypes.CLEAR_EDITING });
 };

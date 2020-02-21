@@ -4,6 +4,7 @@ const initialState = {
   questions: [],
   question: null,
   loading: true,
+  editing: null,
   error: null
 };
 
@@ -33,6 +34,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         questions: state.questions.filter(quest => quest._id !== action.payload)
+      };
+
+    case actionTypes.SET_EDITING:
+      return {
+        ...state,
+        editing: action.payload
+      };
+
+    case actionTypes.CLEAR_EDITING:
+      return {
+        ...state,
+        editing: null
       };
 
     case actionTypes.UPDATE_UPVOTES:
@@ -69,6 +82,20 @@ const reducer = (state = initialState, action) => {
           answers: [action.payload, ...state.question.answers]
         }
       };
+
+    case actionTypes.UPDATE_ANSWER:
+      return {
+        ...state,
+        question: {
+          ...state.question,
+          answers: state.question.answers.map(ans =>
+            ans._id === action.payload.id
+              ? { ...ans, text: action.payload.text }
+              : ans
+          )
+        }
+      };
+
     case actionTypes.DELETE_ANSWER:
       return {
         ...state,

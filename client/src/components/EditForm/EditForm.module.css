@@ -10,6 +10,7 @@
   position: fixed;
   width: 100%;
   max-width: 1100px;
+  transition: all 0.2s ease-out;
 }
 
 .editForm textarea {

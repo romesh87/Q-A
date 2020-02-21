@@ -128,11 +128,31 @@
   height: 30px;
   width: 50px;
   margin-top: 10px;
-  margin-left: auto;
+  /* margin-left: auto; */
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .btnDelete:hover {
   background-color: var(--clr-alizarin);
+}
+
+.btnEdit {
+  background-color: var(--clr-peterriver);
+  display: inline-block;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 50px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnEdit:hover {
+  background-color: var(--clr-belizehole);
 }
