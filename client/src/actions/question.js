@@ -3,12 +3,27 @@ import axios from 'axios';
 import * as actionTypes from './actionTypes';
 import { setAlert } from './alert';
 
-export const getQuestions = () => async dispatch => {
+export const getQuestions = (
+  page = null,
+  itemsPerPage = null,
+  text = null
+) => async dispatch => {
+  let urlString = '/api/questions';
+
+  if (page || itemsPerPage || text) urlString = urlString + '?';
+  if (page) urlString = urlString + `page=${page}&`;
+  if (itemsPerPage) urlString = urlString + `itemsperpage=${itemsPerPage}&`;
+  if (text) urlString = urlString + `text=${text}&`;
+
   try {
-    const res = await axios.get('/api/questions');
+    const res = await axios.get(urlString);
     dispatch({
       type: actionTypes.GET_QUESTIONS,
-      payload: res.data
+      payload: {
+        count: res.data.count,
+        results: res.data.results,
+        searchText: text
+      }
     });
   } catch (err) {
     dispatch({

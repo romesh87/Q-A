@@ -41,14 +41,41 @@ router.post(
 // @desc    Get questions
 // @access  Public
 router.get('/', async (req, res) => {
-  try {
-    const questions = await Question.find()
-      .sort({ date: 'desc' })
-      .populate('user', '-password');
-    res.json(questions);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send('Server error');
+  if (req.query.text) {
+    try {
+      const results = await Question.find(
+        {
+          $text: { $search: req.query.text }
+        },
+        { score: { $meta: 'textScore' } }
+      )
+        .populate('user', '-password')
+        .sort({ score: { $meta: 'textScore' } })
+        .skip((+req.query.page - 1) * req.query.itemsperpage)
+        .limit(+req.query.itemsperpage);
+
+      const count = await Question.find({
+        $text: { $search: req.query.text }
+      }).count();
+
+      res.json({ count, results });
+    } catch (err) {
+      res.status(500).send('Server error');
+    }
+  } else {
+    try {
+      const results = await Question.find()
+        .sort({ date: 'desc' })
+        .populate('user', '-password')
+        .skip((+req.query.page - 1) * req.query.itemsperpage)
+        .limit(+req.query.itemsperpage);
+
+      const count = await Question.find().count();
+      res.json({ count, results });
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send('Server error');
+    }
   }
 });
 

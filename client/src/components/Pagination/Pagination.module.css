@@ -1,0 +1,19 @@
+.pagination ul {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.pagination li {
+  padding: 3px;
+  margin: 3px;
+  border: 1px solid var(--clr-silver);
+  border-radius: 2px;
+}
+
+.pagination li:hover,
+li:active {
+  background-color: var(--clr-silver);
+  color: white;
+  cursor: pointer;
+}

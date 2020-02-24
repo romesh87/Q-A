@@ -2,6 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   questions: [],
+  questionsCount: null,
+  searchText: null,
   question: null,
   loading: true,
   editing: null,
@@ -13,7 +15,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_QUESTIONS:
       return {
         ...state,
-        questions: action.payload,
+        questionsCount: action.payload.count,
+        searchText: action.payload.searchText,
+        questions: action.payload.results,
         loading: false
       };
 

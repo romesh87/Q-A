@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import styles from './NavBar.module.css';
 import { logOut } from '../../actions/auth';
-import { searchQuestion } from '../../actions/question';
+import { getQuestions } from '../../actions/question';
 
 const NavBar = props => {
   const isAuthenticated = props.auth.isAuthenticated;
@@ -16,7 +16,7 @@ const NavBar = props => {
   const searchHandler = e => {
     e.preventDefault();
     if (searchText === '') return;
-    props.searchQuestion(searchText);
+    props.getQuestions(null, null, searchText);
   };
 
   return (
@@ -65,7 +65,7 @@ const NavBar = props => {
 
 NavBar.propTypes = {
   logOut: PropTypes.func.isRequired,
-  searchQuestion: PropTypes.func.isRequired,
+  getQuestions: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -75,4 +75,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { logOut, searchQuestion })(NavBar);
+export default connect(mapStateToProps, { logOut, getQuestions })(NavBar);
