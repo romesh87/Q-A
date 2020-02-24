@@ -212,3 +212,21 @@ export const setEditing = id => async dispatch => {
 export const clearEditing = () => async dispatch => {
   dispatch({ type: actionTypes.CLEAR_EDITING });
 };
+
+export const searchQuestion = text => async dispatch => {
+  try {
+    const res = await axios.get(`/api/questions/search/${text}`);
+    dispatch({
+      type: actionTypes.GET_QUESTIONS,
+      payload: res.data.results
+    });
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+    dispatch({
+      type: actionTypes.QUESTION_ERROR,
+      payload: err.response
+    });
+  }
+};

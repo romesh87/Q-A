@@ -1,23 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './NavBar.module.css';
 import { logOut } from '../../actions/auth';
+import { searchQuestion } from '../../actions/question';
 
 const NavBar = props => {
   const isAuthenticated = props.auth.isAuthenticated;
   const user = props.auth.user;
 
+  const [searchText, setSearchText] = useState('');
+
+  const searchHandler = e => {
+    e.preventDefault();
+    if (searchText === '') return;
+    props.searchQuestion(searchText);
+  };
+
   return (
     <nav className={styles.navBar}>
       <h1>Q&A</h1>
-      <form className={styles.searchBar}>
-        <input type='search' placeholder=' Search..' />
-        <button>
+      <form className={styles.searchBar} onSubmit={e => searchHandler(e)}>
+        <input
+          type='search'
+          placeholder=' Search..'
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+        />
+        {/* <button
+          type='submit'
+          style={{ display: 'none' }}
+          onClick={e => searchHandler(e)}
+        >
           <i className='material-icons'>search</i>
-        </button>
+        </button> */}
       </form>
       {isAuthenticated ? (
         <div className={styles.navLinks}>
@@ -47,6 +65,7 @@ const NavBar = props => {
 
 NavBar.propTypes = {
   logOut: PropTypes.func.isRequired,
+  searchQuestion: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -56,4 +75,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { logOut })(NavBar);
+export default connect(mapStateToProps, { logOut, searchQuestion })(NavBar);

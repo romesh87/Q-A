@@ -457,4 +457,25 @@ router.put('/:quest_id/answer/:ans_id/unfavourite', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/questions/search/:text
+// @desc    Search questions
+// @access  Public
+router.get('/search/:text', async (req, res) => {
+  try {
+    const results = await Question.find(
+      {
+        $text: { $search: req.params.text }
+      },
+      { score: { $meta: 'textScore' } }
+    )
+      .populate('user', '-password')
+      .sort({ score: { $meta: 'textScore' } })
+      .limit(20);
+
+    res.json({ results });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

@@ -53,4 +53,6 @@ const Schema = new mongoose.Schema({
   ]
 });
 
+Schema.index({ text: 'text' });
+
 module.exports = mongoose.model('question', Schema);
