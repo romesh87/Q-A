@@ -21,3 +21,10 @@ app.use('/api/questions', questions);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
 });
+
+// Global error handler
+app.all('*', (req, res, next) => {
+  res
+    .status(404)
+    .json({ errors: { msg: `Can't find ${req.originalUrl} in this server` } });
+});
