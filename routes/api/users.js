@@ -170,11 +170,6 @@ router.post(
       user.passwordResetExpiresIn = Date.now() + 10 * 60 * 1000;
       await user.save();
 
-      // await User.updateOne({
-      //   passwordResetToken: resetTokenHashed,
-      //   passwordResetExpiresIn: Date.now() + 10 * 60 * 1000
-      // });
-
       let transport = nodemailer.createTransport({
         host: 'smtp.mailtrap.io',
         port: 2525,
@@ -208,69 +203,43 @@ router.post(
 // @route   POST api/users/resetPassword/:resetToken
 // @desc    Reset password
 // @access  Public
-// router.post(
-//   '/resetPassword',
-//   check(
-//     'password',
-//     'Please include password with at least 6 characters'
-//   ).isLength({ min: 6 }),
-//   async (req, res) => {
-//     try {
-//       const errors = validationResult(req);
-//       if (!errors.isEmpty()) {
-//         return res.status(400).json({ errors: errors.array() });
-//       }
+router.post(
+  '/resetPassword/:resetToken',
+  check(
+    'newPassword',
+    'Please include password with at least 6 characters'
+  ).isLength({ min: 6 }),
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
 
-//       const user = await User.find({ passwordResetToken: req.params.resetToken });
-//       if (!user) {
-//         return res.status(404).json({ msg: 'User not found' });
-//       }
+      const resetTokenHashed = crypto
+        .createHash('sha256')
+        .update(req.params.resetToken)
+        .digest('hex');
 
-//       if(Date.now() > user.passwordResetExpiresIn) {
-//         return res.status(400).json({msg: 'Reset token has expired'})
-//       }
+      const user = await User.findOne({ passwordResetToken: resetTokenHashed });
+      if (!user) {
+        return res.status(400).json({ msg: 'Invalid reset token' });
+      }
 
-//       if()
+      if (Date.now() > user.passwordResetExpiresIn) {
+        return res.status(400).json({ msg: 'Reset token has expired' });
+      }
 
-//       const resetToken = await crypto.randomBytes(32).toString('hex');
-//       await crypto
-//         .createHash('sha256')
-//         .update(resetToken)
-//         .digest('hex');
+      user.password = await bcrypt.hash(req.body.newPassword, 10);
+      user.passwordChangedAt = Date.now();
+      await user.save();
 
-//       await User.updateOne({
-//         passwordResetToken: resetToken,
-//         passwordResetExpiresIn: Date.now() + 10 * 60 * 1000
-//       });
-
-//       let transport = nodemailer.createTransport({
-//         host: 'smtp.mailtrap.io',
-//         port: 2525,
-//         auth: {
-//           user: config.get('mailtrapUser'),
-//           pass: config.get('mailtrapPassword')
-//         }
-//       });
-
-//       let message = await transport.sendMail({
-//         from: '"Admin" <admin@q-and-a.com>',
-//         to: user[0].email,
-//         subject: 'Password reset(expires in 10min)',
-//         text: `Hello ${
-//           user[0].name.split(' ')[0]
-//         },\nThis is your password reset link:\nhttp://${
-//           req.headers.host
-//         }/users/resetPassword/${resetToken}`
-//       });
-
-//       console.log('Message sent: ', message.messageId);
-
-//       res.json({ msg: 'Email sent' });
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send('Server error');
-//     }
-//   }
-// );
+      res.json({ msg: 'Password has been reset' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 module.exports = router;
