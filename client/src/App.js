@@ -7,6 +7,7 @@ import store from './store';
 import './App.module.css';
 // import { setAuthHeader } from './utils/setAuthHeader';
 import { loadUser } from './actions/auth';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import NavBar from './components/NavBar/NavBar';
 import Questions from './components/Questions/Questions';
 import Question from './components/Question/Question';
@@ -31,13 +32,18 @@ function App(props) {
             <Route exact path='/' component={Questions} />
             <Route exact path='/signup' component={SignUp} />
             <Route exact path='/login' component={LogIn} />
-            <Route exact path='/questions/:id' component={Question} />
+            {/* <Route exact path='/questions/:id' component={Question} /> */}
             <Route exact path='/forgotPassword' component={ForgotPassword} />
             <Route
               exact
               path='/resetPassword/:resetToken'
               component={ResetPassword}
             />
+            <PrivateRoute
+              exact
+              path='/questions/:id'
+              component={Question}
+            ></PrivateRoute>
           </Switch>
         </section>
       </Router>
