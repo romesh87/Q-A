@@ -15,6 +15,7 @@
   border: 1px solid var(--clr-silver);
   padding: 8px;
   border-radius: 3px;
+  max-height: 150px;
 }
 
 .user h3 {

@@ -13,6 +13,7 @@ import Question from './components/Question/Question';
 import SignUp from './components/SignUp/SignUp';
 import LogIn from './components/LogIn/LogIn';
 import Alert from './components/Alert/Alert';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 function App(props) {
   useEffect(() => {
@@ -30,6 +31,7 @@ function App(props) {
             <Route exact path='/signup' component={SignUp} />
             <Route exact path='/login' component={LogIn} />
             <Route exact path='/questions/:id' component={Question} />
+            <Route exact path='/forgotPassword' component={ForgotPassword} />
           </Switch>
         </section>
       </Router>
