@@ -187,7 +187,20 @@ router.post(
           user.name.split(' ')[0]
         },\nThis is your password reset link:\n${
           req.protocol
-        }://localhost:3000/resetPassword/${resetToken}`
+        }://localhost:3000/resetPassword/${resetToken}`,
+        html: `<!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Reset Password</title>
+          </head>
+          <body>
+            <p>Hello ${user.name},</p>
+            <p>This is your password reset link:</p>
+            <a href=${req.protocol}://localhost:3000/resetPassword/${resetToken}>${req.protocol}://localhost:3000/resetPassword/${resetToken}</a>
+          </body>
+        </html>`
       });
 
       console.log('Message sent: ', message.messageId);
