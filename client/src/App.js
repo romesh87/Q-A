@@ -14,6 +14,7 @@ import SignUp from './components/SignUp/SignUp';
 import LogIn from './components/LogIn/LogIn';
 import Alert from './components/Alert/Alert';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 function App(props) {
   useEffect(() => {
@@ -32,6 +33,11 @@ function App(props) {
             <Route exact path='/login' component={LogIn} />
             <Route exact path='/questions/:id' component={Question} />
             <Route exact path='/forgotPassword' component={ForgotPassword} />
+            <Route
+              exact
+              path='/resetPassword/:resetToken'
+              component={ResetPassword}
+            />
           </Switch>
         </section>
       </Router>

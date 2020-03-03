@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 import styles from './LogIn.module.css';
 import { logIn } from '../../actions/auth';
-//import { setAlert } from '../../actions/alert';
 
 const LogIn = props => {
   const [formData, setFormData] = useState({
@@ -48,6 +47,9 @@ const LogIn = props => {
       </form>
       <p>
         Not yet registered? <Link to='/signup'> Sign Up</Link>
+      </p>
+      <p>
+        Forgot your password? <Link to='/forgotPassword'> Click here</Link>
       </p>
     </div>
   );
