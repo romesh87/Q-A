@@ -5,6 +5,8 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
@@ -138,5 +140,64 @@ router.get('/', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// @route   POST api/users/forgotPassword
+// @desc    Forgot password route
+// @access  Public
+router.post(
+  '/forgotPassword',
+  check('email', 'Please include a valid email').isEmail(),
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const user = await User.find({ email: req.body.email });
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      const resetToken = await crypto.randomBytes(32).toString('hex');
+      await crypto
+        .createHash('sha256')
+        .update(resetToken)
+        .digest('hex');
+
+      await User.updateOne({
+        passwordResetToken: resetToken,
+        passwordResetExpiresIn: Date.now() + 10 * 60 * 1000
+      });
+
+      let transport = nodemailer.createTransport({
+        host: 'smtp.mailtrap.io',
+        port: 2525,
+        auth: {
+          user: config.get('mailtrapUser'),
+          pass: config.get('mailtrapPassword')
+        }
+      });
+
+      let message = await transport.sendMail({
+        from: '"Admin" <admin@q-and-a.com>',
+        to: user[0].email,
+        subject: 'Password reset(expires in 10min)',
+        text: `Hello ${
+          user[0].name.split(' ')[0]
+        },\nThis is your password reset link:\nhttp://${
+          req.headers.host
+        }/users/resetPassword/${resetToken}`
+      });
+
+      console.log('Message sent: ', message.messageId);
+
+      res.json({ msg: 'Email sent' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 module.exports = router;

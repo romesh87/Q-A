@@ -1,4 +1,6 @@
 {
   "mongoURI": "mongodb+srv://admin:admin@cluster0-oazcq.mongodb.net/q-and-a?retryWrites=true&w=majority",
-  "jwtSecret": "myjwtsecret"
+  "jwtSecret": "myjwtsecret",
+  "mailtrapUser": "3d6eb2f806f0ca",
+  "mailtrapPassword": "254f0a466b9365"
 }

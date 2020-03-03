@@ -17,6 +17,18 @@ const Schema = new mongoose.Schema({
     required: true
   },
 
+  passwordChangedAt: {
+    type: Date
+  },
+
+  passwordResetToken: {
+    type: String
+  },
+
+  passwordResetExpiresIn: {
+    type: Date
+  },
+
   avatar: {
     type: String
   },
