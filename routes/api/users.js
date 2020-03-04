@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const gravatar = require('gravatar');
+//const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
@@ -11,6 +11,7 @@ const nodemailer = require('nodemailer');
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
 const uploadUserPhoto = require('../../middleware/uploadUserPhoto');
+const resizeUserPhoto = require('../../middleware/resizeUserPhoto');
 
 // @route   POST api/users/signup
 // @desc    Register user
@@ -150,6 +151,7 @@ router.patch(
   [
     auth,
     uploadUserPhoto.single('photo'),
+    resizeUserPhoto,
     check('name', 'name is required').notEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'password update is not allowed').isEmpty()

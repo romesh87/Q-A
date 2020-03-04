@@ -18,6 +18,7 @@ const Answer = props => {
   const question = props.question.question;
   const auth = props.auth;
   const editing = props.question.editing;
+  const hostName = `${window.location.protocol}//${window.location.host}`;
 
   const upvoteClickHandler = () => {
     props.upvoteAnswer(question._id, props.id);
@@ -55,7 +56,7 @@ const Answer = props => {
         }
       >
         <div className={styles.user}>
-          <img src={props.avatar} alt='avatar' />
+          <img src={`${hostName}/img/users/${props.avatar}`} alt='avatar' />
           <h3>{props.username}</h3>
         </div>
         <div className={styles.content}>
