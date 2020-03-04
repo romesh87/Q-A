@@ -30,7 +30,8 @@ const Schema = new mongoose.Schema({
   },
 
   avatar: {
-    type: String
+    type: String,
+    default: 'default.jpg'
   },
 
   date: {

@@ -10,6 +10,7 @@ const nodemailer = require('nodemailer');
 
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
+const uploadUserPhoto = require('../../middleware/uploadUserPhoto');
 
 // @route   POST api/users/signup
 // @desc    Register user
@@ -32,11 +33,11 @@ router.post(
     }
 
     const { name, email, password } = req.body;
-    const avatar = gravatar.url(email, {
-      size: '200',
-      rating: 'pg',
-      default: 'mm'
-    });
+    // const avatar = gravatar.url(email, {
+    //   size: '200',
+    //   rating: 'pg',
+    //   default: 'mm'
+    // });
 
     try {
       const user = await User.findOne({ email: email });
@@ -49,8 +50,8 @@ router.post(
       const newUser = new User({
         name,
         email,
-        password,
-        avatar
+        password
+        // avatar
       });
 
       // Encrypting password
@@ -140,6 +141,45 @@ router.get('/', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// @route   PATCH api/users
+// @desc    Update user info
+// @access  Private
+router.patch(
+  '/',
+  [
+    auth,
+    uploadUserPhoto.single('photo'),
+    check('name', 'name is required').notEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
+    check('password', 'password update is not allowed').isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const user = await User.findById(req.userId, '-password');
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+
+      req.body.avatar = req.file.filename;
+
+      await user.updateOne(req.body);
+
+      const updated = await User.findById(req.userId, 'name email avatar');
+
+      res.json(updated);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 // @route   POST api/users/forgotPassword
 // @desc    Forgot password route
