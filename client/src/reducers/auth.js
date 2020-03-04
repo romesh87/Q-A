@@ -28,6 +28,12 @@ const reducer = (state = initialState, action) => {
         loading: false
       };
 
+    case actionTypes.UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload
+      };
+
     case actionTypes.SIGNUP_FAIL:
     case actionTypes.LOGIN_FAIL:
     case actionTypes.AUTH_FAIL:

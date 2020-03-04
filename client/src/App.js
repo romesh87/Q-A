@@ -16,6 +16,7 @@ import LogIn from './components/LogIn/LogIn';
 import Alert from './components/Alert/Alert';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/ResetPassword/ResetPassword';
+import Profile from './components/Profile/Profile';
 
 function App(props) {
   useEffect(() => {
@@ -39,11 +40,8 @@ function App(props) {
               path='/resetPassword/:resetToken'
               component={ResetPassword}
             />
-            <PrivateRoute
-              exact
-              path='/questions/:id'
-              component={Question}
-            ></PrivateRoute>
+            <PrivateRoute exact path='/questions/:id' component={Question} />
+            <PrivateRoute exact path='/profile' component={Profile} />
           </Switch>
         </section>
       </Router>

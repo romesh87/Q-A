@@ -1,0 +1,110 @@
+.profile {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile h1 {
+  text-align: center;
+  color: var(--clr-greensea);
+  margin-bottom: 30px;
+}
+
+.profile span {
+  display: inline-block;
+  margin-left: 210px;
+  font-weight: 800;
+}
+
+.profile input {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 8px;
+  height: 50px;
+  width: 350px;
+  border: 1px solid var(--clr-wetasphalt);
+  border-radius: 5px;
+  font-size: 100%;
+  box-shadow: 2px 2px 5px var(--clr-silver);
+}
+
+.profile img {
+  display: block;
+  height: 150px;
+  width: 150px;
+  border-radius: 100px;
+  margin: auto;
+}
+
+.profile small {
+  display: block;
+  text-align: left;
+  width: 350px;
+  margin: auto;
+  font-weight: 100;
+  color: var(--clr-asbestos);
+}
+
+.profile button {
+  display: block;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: var(--clr-peterriver);
+  transition: background-color 0.2s;
+  color: white;
+  font-size: 80%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.profile label {
+  display: block;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  width: 200px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: var(--clr-turquoise);
+  transition: background-color 0.2s;
+  color: white;
+  font-size: 80%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.profile label:hover,
+label:active {
+  background-color: var(--clr-greensea);
+}
+
+.profile button:hover,
+button:active {
+  background-color: var(--clr-belizehole);
+}
+
+.profile p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.profile a {
+  display: inline-block;
+  color: var(--clr-belizehole);
+}
+
+.profile a:hover {
+  border-bottom: 1px solid var(--clr-belizehole);
+}

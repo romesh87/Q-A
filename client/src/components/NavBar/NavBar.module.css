@@ -27,6 +27,12 @@
   margin: 20px;
 }
 
+.navLinks img {
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+}
+
 .navLinks a {
   margin: 20px;
   color: white;

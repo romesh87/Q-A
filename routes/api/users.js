@@ -131,7 +131,7 @@ router.post(
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.userId, '-password');
+    const user = await User.findById(req.userId, 'name email avatar');
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
@@ -169,7 +169,11 @@ router.patch(
         return res.status(404).json({ msg: 'User not found' });
       }
 
-      req.body.avatar = req.file.filename;
+      if (!req.file) {
+        req.body.avatar = 'default.jpg';
+      } else {
+        req.body.avatar = req.file.filename;
+      }
 
       await user.updateOne(req.body);
 

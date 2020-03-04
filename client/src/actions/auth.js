@@ -67,3 +67,21 @@ export const loadUser = () => async dispatch => {
     });
   }
 };
+
+export const updateUser = data => async dispatch => {
+  setAuthHeader(localStorage.getItem('token'));
+
+  try {
+    const res = await axios.patch('/api/users', data);
+
+    dispatch({
+      type: actionTypes.UPDATE_USER,
+      payload: res.data
+    });
+    dispatch(setAlert('Profile updated', 'success'));
+  } catch (err) {
+    err.response.data.errors.forEach(el =>
+      dispatch(setAlert(el.msg, 'danger'))
+    );
+  }
+};
