@@ -14,7 +14,6 @@ const Question = props => {
   const loading = props.question.loading;
   const question = props.question.question;
   const isAuth = props.auth.isAuthenticated;
-  const hostName = `${window.location.protocol}//${window.location.host}`;
 
   useEffect(() => {
     props.getQuestion(props.match.params.id);
@@ -32,10 +31,7 @@ const Question = props => {
       {/* <EditForm /> */}
       <div className={styles.question}>
         <div className={styles.user}>
-          <img
-            src={`${hostName}/img/users/${question.user.avatar}`}
-            alt='avatar'
-          />
+          <img src={`/img/users/${question.user.avatar}`} alt='avatar' />
           <h3>{question.user.name}</h3>
         </div>
         <div className={styles.content}>

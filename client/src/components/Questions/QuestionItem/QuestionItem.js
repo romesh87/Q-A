@@ -14,12 +14,10 @@ const QuestionItem = props => {
     props.deleteQuestion(props.id);
   };
 
-  const hostName = `${window.location.protocol}//${window.location.host}`;
-
   return (
     <div className={styles.questionItem}>
       <div className={styles.user}>
-        <img src={`${hostName}/img/users/${props.user.avatar}`} alt='avatar' />
+        <img src={`/img/users/${props.user.avatar}`} alt='avatar' />
         <h3>{props.user.name}</h3>
       </div>
       <div className={styles.content}>

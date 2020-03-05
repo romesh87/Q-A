@@ -10,7 +10,6 @@ import { getQuestions } from '../../actions/question';
 const NavBar = props => {
   const isAuthenticated = props.auth.isAuthenticated;
   const user = props.auth.user;
-  const hostName = `${window.location.protocol}//${window.location.host}`;
 
   const [searchText, setSearchText] = useState('');
 
@@ -26,7 +25,7 @@ const NavBar = props => {
       <Link to='/'>
         <img
           className={styles.logo}
-          src={`${hostName}/img/logos/q-and-a-1.png`}
+          src='/img/logos/q-and-a-1.png'
           alt='logo'
         />
       </Link>
@@ -49,9 +48,7 @@ const NavBar = props => {
       {isAuthenticated ? (
         <div className={styles.navLinks}>
           {/* <ion-icon name='person-circle-outline'></ion-icon> */}
-          {user && (
-            <img src={`${hostName}/img/users/${user.avatar}`} alt='user-img' />
-          )}
+          {user && <img src={`/img/users/${user.avatar}`} alt='user-img' />}
           {user && (
             <Link to='/profile' className={styles.username}>
               {' '}

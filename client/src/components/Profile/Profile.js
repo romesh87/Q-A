@@ -6,7 +6,6 @@ import styles from './Profile.module.css';
 import { updateUser } from '../../actions/auth';
 
 const Profile = props => {
-  const hostName = `${window.location.protocol}//${window.location.host}`;
   const user = props.auth.user;
   const fileInput = useRef();
 
@@ -21,7 +20,7 @@ const Profile = props => {
       ...formData,
       name: user.name,
       email: user.email,
-      avatar: `${hostName}/img/users/${user.avatar}`
+      avatar: `/img/users/${user.avatar}`
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
