@@ -44,6 +44,10 @@ function App(props) {
             <PrivateRoute exact path='/profile' component={Profile} />
           </Switch>
         </section>
+        <footer>
+          <p>&copy; 2020 Roman Shishkin</p>
+          <p>roman.shishkin87@gmail.com</p>
+        </footer>
       </Router>
     </Provider>
   );

@@ -22,7 +22,15 @@ const NavBar = props => {
 
   return (
     <nav className={styles.navBar}>
-      <h1>Q&A</h1>
+      {/* <h1>Q&A</h1> */}
+      <Link to='/'>
+        <img
+          className={styles.logo}
+          src={`${hostName}/img/logos/q-and-a-1.png`}
+          alt='logo'
+        />
+      </Link>
+
       <form className={styles.searchBar} onSubmit={e => searchHandler(e)}>
         <input
           type='search'

@@ -7,12 +7,18 @@
   height: 100px;
   position: fixed;
   top: 0;
-  /* background-color: var(--clr-belizehole); */
-  background-image: linear-gradient(
+  background-color: var(--clr-belizehole);
+  /* background-image: linear-gradient(
     to bottom right,
     var(--clr-belizehole),
     var(--clr-greensea)
-  );
+  ); */
+}
+
+.logo {
+  height: 90px;
+  width: 90px;
+  margin-left: 15px;
 }
 
 .navBar h1 {

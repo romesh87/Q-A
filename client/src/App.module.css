@@ -45,6 +45,13 @@
   margin-bottom: 400px;
 }
 
+:global(footer) {
+  text-align: center;
+  font-weight: 300;
+  color: var(--clr-asbestos);
+  padding-bottom: 20px;
+}
+
 /* Material icons */
 /* size */
 :global(.material-icons.md-18) {
