@@ -42,16 +42,23 @@
 .navLinks a {
   margin: 20px;
   color: white;
-  transition: color 0.2s;
+  transition: all 0.2s;
+  display: inline-block;
 }
 
 .navLinks a:hover,
 a:active {
   color: var(--clr-silver);
+  border-bottom: 1px solid var(--clr-silver);
 }
 
 .searchBar {
   display: flex;
+}
+
+::placeholder {
+  /* modern browser */
+  color: white;
 }
 
 .searchBar input[type='search'] {
@@ -59,8 +66,19 @@ a:active {
   height: 40px;
   padding: 5px;
   font-size: 100%;
-  border-radius: 5px 0px 0px 5px;
-  background-color: var(--clr-clouds);
+  border-radius: 5px;
+  color: white;
+  /* background-color: var(--clr-clouds); */
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+}
+
+.searchBar input[type='search']:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.searchBar input[type='search']:focus {
+  outline: none;
 }
 
 .username {
